@@ -311,16 +311,22 @@ renderPorMes(): Muestra una lista ordenada del importe total vendido por cada me
 
 */
 
-/*function renderPorMes() {
-  var fechas = [new Date]
-  for (i=0; i<local.ventas.length;i++) {
-    ventasMes(local.ventas[i].getMonth() + 1, local.ventas[i].fecha.getFullYear());
-  } return 
-} 
+function renderPorMes() {
+  var totalEnero = 0;
+  var totalFebrero = 0;
+  for (i = 0; i < local.ventas.length; i++) {
+    if (local.ventas[i].fecha.getMonth() + 1 == 1 && local.ventas[i].fecha.getFullYear() == 2019) {
+      totalEnero = ventasMes(1, 2019);
+    } else if (local.ventas[i].fecha.getMonth() + 1 == 2 && local.ventas[i].fecha.getFullYear() == 2019) {
+      totalFebrero = ventasMes(2, 2019);
+    }
+  } return 'Ventas por mes: ' + 'Total de enero 2019: ' + totalEnero +
 
-*/
+    '. Total de febrero 2019: ' + totalFebrero;
+}
 
-//console.log( renderPorMes() );
+
+console.log(renderPorMes());
 // Ventas por mes:
 //   Total de enero 2019: 1250
 //   Total de febrero 2019: 4210
@@ -329,13 +335,50 @@ renderPorMes(): Muestra una lista ordenada del importe total vendido por cada me
 //renderPorSucursal(): Muestra una lista del importe total vendido por cada sucursal
 
 function renderPorSucursal() {
-  var mensaje;
-  for (i=0; i < local.sucursales.length;i++) {
-    mensaje = 'Total de ' + local.sucursales[i] + ': ' + SumarVentas(local.sucursales[i])
-  } return mensaje;
+  var ventasPorSucursal = [];
+  for (i = 0; i < local.sucursales.length; i++) {
+    ventasPorSucursal.push('Total de ' + local.sucursales[0] + ': ' + ventasSucursal(local.sucursales[0]));
+    ventasPorSucursal.push(' Total de ' + local.sucursales[1] + ': ' + ventasSucursal(local.sucursales[1]));
+    //intenté mil veces con ventasPorSucursal.push('Total de ' + local.sucursales[i] + ': ' + ventasSucursal(local.sucursales[i])) pero no funciona
+  } return 'Ventas por sucursal: ' + ventasPorSucursal;
 }
 
-console.log( renderPorSucursal() );
+console.log(renderPorSucursal());
 // Ventas por sucursal:
 //   Total de Centro: 4195
 //   Total de Caballito: 1265
+
+
+/*render(): Tiene que mostrar la unión de los dos reportes anteriores, cual fue el producto más vendido y la vendedora que más ingresos generó*/
+
+function render() {
+function vendedoraTop() {
+  var cantidades = [];
+  var valorMaximo = 100;
+  var posicionDelValorMaximo = 0;
+  for (i = 0; i < local.vendedoras.length; i++) {
+    cantidades.push(ventasVendedora(local.vendedoras[i]));
+    for (var j = 0; j < cantidades.length; j++) {
+      if (cantidades[j] > valorMaximo) {
+        valorMaximo = cantidades[j];
+        posicionDelValorMaximo = j;
+        //console.log(posicionDelValorMaximo)
+      }
+    }
+
+  } return local.vendedoras[posicionDelValorMaximo];
+} return 'Reporte: ' + renderPorMes() + renderPorSucursal() + 'Producto estrella: ' + componenteMasVendido() + 'Vendedora que más ingresos generó: ' + vendedoraTop();
+}
+
+console.log(render());
+// Reporte
+// Ventas por mes:
+//   Total de enero 2019: 1250
+//   Total de febrero 2019: 4210
+// Ventas por sucursal:
+//   Total de Centro: 4195
+//   Total de Caballito: 1265
+// Producto estrella: Monitor GPRS 3000
+// Vendedora que más ingresos generó: Grace
+
+
