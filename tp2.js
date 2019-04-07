@@ -1,3 +1,13 @@
+// Querida Lou, te dejo mis observaciones a tu trabajo. 
+// En general tu codigo esta bien, tus soluciones son creativas y claras y se nota el empeño que pusiste
+// La unica observacion seria a hacerte es que varias veces te olvidaste de declarar la "i" en un for
+// Eso es un error que puede arruinar tu codigo
+// (Y de hecho, tu funcion ventasPorSucursal no funciono de la manera que esperabas justamente porque te olvidaste
+//  de declarar la i). 
+// Este es un error a corregir lo antes posible, y te animo a que practiques tus for
+//  El resto de las observacione son meros detalles, que te fui salpicando a lo largo del trabajo
+// En general, insisto, hiciste un gran trabajo y podes sentirte orgullosa de vos misma
+
 /*Local de ventas de PCs
 Una empresa de venta de computadoras está desarrollando un sistema para llevar registro de ventas. Para ello cuenta con la siguiente información:
 
@@ -38,11 +48,18 @@ de los precios de cada componente incluido.
 */
 
 
-function precioMaquina(parametros) {
+function precioMaquina(parametros) { // preferimos nombres mas descriptivos para los parametros, al igual
+  // que para las variables. La idea es que describan que tipo de dato tienen dentro, para que otra persona
+  // que lee nuestro codigo sepa rapidamente que son. En este caso, por ejemplo, "componentes" seria una mejor opcion. 
   var precioTotal = 0;
   for (var i = 0; i < parametros.length; i++) {
     //console.log(parametros[i])
 
+    // esto es un detalle, Lou, pero si fuera un challenge para una entrevista, por ejemplo, 
+    // no quedaria bien dejar los console.log en el codigo, incluso cuando estan comentados
+    // los console.log son muy utiles mientras estamos desarrollando, pero nunca deben dejarse
+    // en el trabajo final a entregar. 
+    
     for (var j = 0; j < local.precios.length; j++) {
       //console.log(local.precios[j].componente)
       //console.log(local.precios[j].precio)
@@ -110,6 +127,39 @@ function vendedoraDelMes(mes, anio) {
   }
 }
 
+
+// Una manera de hacerlo sin "hardcodear" los nombres de Ada y Grace seria la siguiente:
+// function vendedoraDelMes(mes, anio) {
+//     var arrayVendedoras = [];
+//     for (var i = 0; i < local.vendedoras.length; i++) {
+//         var vendorasObj = {
+//             nombre: local.vendedoras[i],
+//             ventas: 0,
+//         }
+//         for (var j = 0; j < local.ventas.length; j++) {
+//             if (local.ventas[j].fecha.getMonth() + 1 == mes && local.ventas[i].fecha.getFullYear() == anio) {
+//                 var precioComponentes = precioMaquina(local.ventas[j].componentes)
+//                 if (local.vendedoras[i] === local.ventas[j].nombreVendedora) {
+//                     if (vendorasObj.nombre === local.ventas[j].nombreVendedora) {
+//                         vendorasObj.ventas = vendorasObj.ventas + precioComponentes;
+//                     }
+//                 }
+//             }
+//         }
+//         arrayVendedoras.push(vendorasObj)
+//     }
+
+//     var mejorVendedora;
+//     var ventaMax = 0;
+
+//     for (var k = 0; k < arrayVendedoras.length; k++) {
+//         if (arrayVendedoras[k].ventas) {
+//             ventaMax = arrayVendedoras[k].ventas;
+//             mejorVendedora = arrayVendedoras[k].nombre;
+//             return 'La vendedora del mes es' + ' ' + mejorVendedora + ' ' + 'con' + ' ' + ventaMax + ' ' + 'pesos vendidos'
+//         }
+//     }
+// }
 
 console.log(vendedoraDelMes(1, 2019)); // "Ada" (vendio por $670, una máquina de $320 y otra de $350)
 
@@ -182,6 +232,10 @@ function huboVentas(mes, anio) {
 
 console.log(huboVentas(3, 2019)); // false
 
+// Una version mas breve aun:
+// function huboVentas (mes, anio) {
+//   return ventasMes(mes, anio) > 0;
+// }
 
 
 /*Como se abrió una nueva sucursal en Caballito, ahora los datos de las ventas también tienen el nombre de la sucursal en la cual se realizó. Por ejemplo:
@@ -191,6 +245,10 @@ console.log(huboVentas(3, 2019)); // false
 
 for (i = 0; i < local.ventas.length; i++) {
   local.ventas[i].sucursal = 'Centro';
+  
+  // ojo Lou, aca no pusiste "var" antes de declarar la i del for
+  // Eso puede traer problemas con el valor de i
+  
 }
 //console.log(local.ventas)
 
@@ -246,6 +304,7 @@ local.ventas.push(
 function ventasSucursal(sucursal) {
   var totalSucursal = 0;
   for (i = 0; i < local.ventas.length; i++) {
+    // Nuevamente, nunca olvides escribir "var" antes de declarar la i de un for
     if (local.ventas[i].sucursal == sucursal) {
       totalSucursal += precioMaquina(local.ventas[i].componentes);
     }
@@ -263,9 +322,11 @@ Entonces, ¿cómo harías para que ambas funciones reutilicen código y evitemos
 function SumarVentas(valor) {
   var total = 0;
   for (i = 0; i < local.ventas.length; i++) {
+    // el var antes de la i :(
     var propiedades = Object.keys(local.ventas[i]);
     //console.log(propiedades)
     for (j = 0; j < propiedades.length; j++) {
+      // y de la j :( :( :(
       var propiedad = propiedades[j];
       //console.log(local.ventas[i][propiedad])
       if (local.ventas[i][propiedad] == valor) {
@@ -276,6 +337,9 @@ function SumarVentas(valor) {
 }
 console.log(SumarVentas('Centro'));
 
+// AMO esta solucion, super creativa y clara
+
+
 
 /*Crear la función sucursalDelMes(mes, anio), que se le pasa dos parámetros numéricos, (mes, anio) y devuelve el nombre de la sucursal que más vendió en plata en el mes.
 No cantidad de ventas, sino importe total de las ventas. El importe de una venta es el que indica la función precioMaquina.
@@ -285,6 +349,7 @@ function sucursalDelMes(mes, anio) {
   var ventasCentro = 0;
   var ventasCaballito = 0;
   for (i = 0; i < local.ventas.length; i++) {
+    // :( :( :( :( :( :(
     if (local.ventas[i].fecha.getMonth() + 1 == mes && local.ventas[i].fecha.getFullYear() == anio) {
       if (local.ventas[i].sucursal == 'Centro') {
         ventasCentro += precioMaquina(local.ventas[i].componentes)
@@ -303,6 +368,8 @@ function sucursalDelMes(mes, anio) {
 }
 console.log(sucursalDelMes(1, 2019)); // "Centro"
 
+// bien!
+
 
 /*3. Para tener una mejor muestra de como está resultando el local, queremos desarrollar un reporte que nos muestre las ventas por sucursal y por mes. 
 Para esto, necesitamos crear las siguientes funciones:
@@ -315,6 +382,7 @@ function renderPorMes() {
   var totalEnero = 0;
   var totalFebrero = 0;
   for (i = 0; i < local.ventas.length; i++) {
+    //  :( :( :( :( :( :( :( :( :(
     if (local.ventas[i].fecha.getMonth() + 1 == 1 && local.ventas[i].fecha.getFullYear() == 2019) {
       totalEnero = ventasMes(1, 2019);
     } else if (local.ventas[i].fecha.getMonth() + 1 == 2 && local.ventas[i].fecha.getFullYear() == 2019) {
@@ -337,12 +405,18 @@ console.log(renderPorMes());
 function renderPorSucursal() {
   var ventasPorSucursal = [];
   for (i = 0; i < local.sucursales.length; i++) {
+    // ya no se me ocurre que poner cada vez que encuentro un for sin el "var"
     ventasPorSucursal.push('Total de ' + local.sucursales[0] + ': ' + ventasSucursal(local.sucursales[0]));
     ventasPorSucursal.push(' Total de ' + local.sucursales[1] + ': ' + ventasSucursal(local.sucursales[1]));
     //intenté mil veces con ventasPorSucursal.push('Total de ' + local.sucursales[i] + ': ' + ventasSucursal(local.sucursales[i])) pero no funciona
   } return 'Ventas por sucursal: ' + ventasPorSucursal;
 }
-
+// No funciono de la manera en que querias porque te olvidaste de declarar "i", es decir, 
+// de escribir "var i = 0" al comienzo de tu for
+// Si hacemos dentro de tu for un console.log de "i" vas a ver que da 5 en lugar de 0
+// Por que? Porque la i quedo con un valor anterior, de otro for, porque no volviste a declararla
+// (Espero que ahora se entienda por que te puse tantas caritas tristes)
+// Fijate que si agregas "var" antes de la i en el for, y lo probas de la manera en que querias, tu codigo funciona :)
 console.log(renderPorSucursal());
 // Ventas por sucursal:
 //   Total de Centro: 4195
@@ -357,8 +431,10 @@ function vendedoraTop() {
   var valorMaximo = 100;
   var posicionDelValorMaximo = 0;
   for (i = 0; i < local.vendedoras.length; i++) {
+    // :( 
     cantidades.push(ventasVendedora(local.vendedoras[i]));
     for (var j = 0; j < cantidades.length; j++) {
+      // :) 
       if (cantidades[j] > valorMaximo) {
         valorMaximo = cantidades[j];
         posicionDelValorMaximo = j;
